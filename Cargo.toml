@@ -1,0 +1,43 @@
+[package]
+name = "rustgba"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "A Game Boy Advance emulator written in Rust"
+license = "MIT"
+
+[dependencies]
+# SDL3 for window, rendering, input, and audio
+sdl3 = { version = "0", features = ["build-from-source"] }
+
+# Bitwise flag manipulation
+bitflags = "2.6"
+
+# Logging infrastructure
+log = "0.4"
+env_logger = "0.11"
+
+# Optional: For better error messages
+anyhow = "1.0"
+
+[dev-dependencies]
+# For testing
+criterion = "0.5"  # Benchmarking (useful later for optimization)
+
+[profile.dev]
+# Emulators are performance-critical even during development
+opt-level = 2
+
+[profile.release]
+opt-level = 3
+lto = true           # Link-Time Optimization
+codegen-units = 1    # Single codegen unit for better optimization
+panic = "abort"      # Smaller binary, faster panics
+
+[[bin]]
+name = "rustgba"
+path = "src/main.rs"
+
+[lib]
+name = "rustgba"
+path = "src/lib.rs"
